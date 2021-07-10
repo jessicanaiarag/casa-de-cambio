@@ -10,27 +10,37 @@ const setupEventHandlers = () => {
 const handleSearchEvent = () => {
     const currencyValue = document.querySelector('#currency-input').value;
     clearList();
-    fetchCurrency(currencyValue);
+    fetchCurrencyAwaitAsyncy(currencyValue);
 }
 
-const fetchCurrency = (currency) => {
+// Com Then 
+/* const fetchCurrency = (currency) => {
     fetch(`https://api.exchangerate.host/latest?base=${currency}`)
         .then((response) => response.json())
         .then((object) => {
-            updateBasecurrency(object.base);
+            updateBaseCurrency(object.base);
             const rates = object.rates;
             handleRates(rates);
-            //console.log(ratesEntries);
         })
         .catch((error) => console.log(error, 'errou'));
 };
+*/
+
+// Com Async Await 
+const fetchCurrencyAwaitAsyncy = async (currency) => {
+    const response = await fetch(`https://api.exchangerate.host/latest?base=${currency}`)
+    const object = await response.json();
+    updateBaseCurrency(object.base);
+    const rates = object.rates;
+    handleRates(rates);
+}
 
 const clearList = () => {
     const currencyList = document.querySelector('#currency-list');
     currencyList.innerText = '';
 }
 
-const updateBasecurrency = (base) => {
+const updateBaseCurrency = (base) => {
     const baseTitle = document.querySelector('#base');
     baseTitle.innerText = `Valores referentes a 1 ${base}`;
 }
