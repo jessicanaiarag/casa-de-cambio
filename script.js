@@ -38,7 +38,7 @@ const updateBasecurrency = (base) => {
 const renderRate = (currency, rates) => {
     const currencyList = document.querySelector('#currency-list');
     const itenCurrencyList = document.createElement('li');
-    itenCurrencyList.innerText = `${currency}: ${rates}`;
+    itenCurrencyList.innerHTML = `<strong> ${currency}: </strong> ${rates.toFixed(2)}`;
     currencyList.appendChild(itenCurrencyList);
 }
 
