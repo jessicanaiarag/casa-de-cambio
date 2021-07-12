@@ -1,6 +1,10 @@
+const OBJECT_KEY = 'currencyObject';
+
 window.onload = () => {
     setupEventHandlers();
-}
+    getLocalStorage();
+};
+
 // Pegando botão e fazendo evento de click  
 const setupEventHandlers = () => {
     const searchbutton = document.querySelector('#search-button');
@@ -21,6 +25,7 @@ const handleSearchEvent = () => {
             updateBaseCurrency(object.base);
             const rates = object.rates;
             handleRates(rates);
+            saveLocalStorage(object);
         })
         .catch((error) => console.log(error, 'errou'));
 };
@@ -33,6 +38,7 @@ const fetchCurrencyAwaitAsyncy = async (currency) => {
     updateBaseCurrency(object.base);
     const rates = object.rates;
     handleRates(rates);
+    saveLocalStorage(object);
 }
 
 const clearList = () => {
@@ -60,3 +66,15 @@ const handleRates = (rates) => {
         renderRate(currency, rates);
     });
 };
+
+const saveLocalStorage = (object) => {
+    localStorage.setItem(OBJECT_KEY, JSON.stringify(object));
+}
+
+const getLocalStorage = () => {
+    const stringfiedObject = localStorage.getItem(OBJECT_KEY);
+    const object = JSON.parse(stringfiedObject);
+    handleRates(object.rates);
+    updateBaseCurrency(object.base);
+    console.log(object);
+}
